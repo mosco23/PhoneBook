@@ -23,6 +23,14 @@ while inp != "exit".lower():
         print("name\tphoneNumber\tmail")
         for i in file:
             print(i)
+    elif inp == "search".lower():
+        search_val = input("\nEnter the name for search > ")
+        c = len(search_val)
+        f = open(".Phone_Lists.txt", "r")
+        read = f.readlines()
+        for i in read:
+            if i[:c] == search_val:
+                print(i)
     elif inp == "exit".lower():
         pass
     else:
