@@ -3,7 +3,7 @@ The phone book application for linux with GUI interface and web Version.
 
 # OPTIONS
 
-    -h	-->	Show this page
+    -h	-->	Show the manual page
     -g	-->	Run app with GUI interface
     -w	-->	Run app with WEB version
 
