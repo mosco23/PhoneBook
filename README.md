@@ -12,3 +12,9 @@ The phone book application for linux with GUI interface and web Version.
     add   -->	Add new phone number
     show   -->	Show the registered phone numbers
     search -->	Search with name in registered phone numbers
+
+# INSTALL
+    git clone https://github.com/SamanMalekian/PhoneBook.git
+    cd PhoneBook
+    chmod +x phonebook.py
+    ./phonebook.py
