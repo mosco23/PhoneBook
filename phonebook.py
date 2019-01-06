@@ -24,6 +24,11 @@ class PhoneBook:
         self.name = name
         self.email = email
         self.num = num
+        home_dc = getenv("HOME")
+        chdir(home_dc)
+        ls = listdir()
+        if ".Phone_Lists.txt" not in ls:
+            open(".Phone_Lists.txt", "w+").close()
 
     def submit(self):
         file = open(".Phone_Lists.txt", "a")
@@ -48,13 +53,10 @@ class PhoneBook:
 def main():
     if "-h" in argv:
         print(PhoneBook.__doc__)
+    elif "-g" in argv:
+        system("python3 gui.py")
     else:
         system("clear")
-        home_dc = getenv("HOME")
-        chdir(home_dc)
-        ls = listdir()
-        if ".Phone_Lists.txt" not in ls:
-            open(".Phone_Lists.txt", "w+").close()
         inp = input("Press the enter :)")
         while inp != "exit":
             inp = input("\n-> ")
