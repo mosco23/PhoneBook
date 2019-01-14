@@ -16,5 +16,6 @@ The phone book application for linux with GUI interface and web Version.
 # INSTALL
     git clone https://github.com/SamanMalekian/PhoneBook.git
     cd PhoneBook
-    chmod +x phonebook.py
-    ./phonebook.py
+    chmod +x installer.sh
+    ./installer.sh
+    ./phonebook.py -h
