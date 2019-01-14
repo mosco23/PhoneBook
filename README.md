@@ -9,9 +9,10 @@ The phone book application for linux with GUI interface and web Version.
 
 # COMMANDS
 
-    add   -->	Add new phone number
-    show   -->	Show the registered phone numbers
-    search -->	Search with name in registered phone numbers
+    add    -->	Add new phone number.
+    show   -->	Show the registered phone numbers.
+    search -->	Search with name in registered phone numbers.
+    exit   -->  Exit The App.
 
 # INSTALL
     git clone https://github.com/SamanMalekian/PhoneBook.git
