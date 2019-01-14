@@ -55,6 +55,8 @@ def main():
         print(PhoneBook.__doc__)
     elif "-g" in argv:
         system("python3 gui.py")
+    elif "-w" in argv:
+        system("python3 web.py")
     else:
         system("clear")
         inp = input("Press the enter :)")
