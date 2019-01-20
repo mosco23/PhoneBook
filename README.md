@@ -1,5 +1,5 @@
 # PhoneBook
-The phone book application for linux with GUI interface and web Version.
+The phone book application for linux with GUI and Web UI.
 
 # OPTIONS
 
