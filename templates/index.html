@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Phone Book</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <script type="text/javascript" src="static/js/tab-events.js"></script>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="menu">
+        <form method="post">
+          <input id="search-box" type="text" name="search-engin" placeholder="Search here with name ..." />
+          <button type="submit" name="button" id="search-sub" >Submit</button>
+        </form>
+        <ul>
+          <button class="menu-btn" onclick="openTab(event, 'Add')">Add</button>
+          <button class="menu-btn" onclick="openTab(event, 'Show')">Show</button>
+          <button class="menu-btn" onclick="openTab(event, 'About')">About</button>
+        </ul>
+      </div>
+      <div id="baseTab">
+        <div id="Add" class="tabcontent" >
+          <form action="" method="post" >
+            <input type="text" name="name" placeholder="Name" />
+            <input type="text" name="email" placeholder="Example@mail.com">
+            <input type="text" name="phoneNumber" placeholder="+98 * *** *** ***" />
+            <button type="submit" name="add-submit">Submit</button>
+          </form>
+        </div>
+        <div id="Show" class="tabcontent">
+          <h1>this is Show tab</h1>
+        </div>
+        <div id="About" class="tabcontent" style="display:block;">
+          <h1>this is About tab</h1>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,135 @@
+* {
+  font-family: Chilanka, sans-serif;
+}
+
+body {
+  min-width: 700px;
+  background-color: #2D3A4A;
+}
+
+.wrap {
+  width: 70%;
+  margin: auto;
+  height: 600px;
+  margin-top: 1.5%;
+  padding-top: 0.01%;
+  border-radius: 15px;
+  background-size: cover;
+  background-position: center;
+  background-image: url('../img/background.jpg');
+}
+
+.menu {
+  border-radius: 20px;
+  background-color: #E3E3E3;
+}
+
+.menu-btn {
+  width: 50px;
+  height: 30px;
+  padding: 5px;
+  margin-right: 10px;
+  border-style: none;
+  border-radius: 10px;
+  background-color: #ADADAD;
+}
+
+.menu-btn:hover {
+  border-radius: 15px;
+  background-color: #ddd;
+}
+
+.tabcontent {
+  display: none;
+  padding: 10px;
+}
+
+#search-box {
+  float: right;
+  width: 25%;
+  height: 25px;
+  margin-top: 2px;
+  margin-right: 5px;
+  border-style: none;
+  border-radius: 10px;
+  background-color: #747677;
+}
+
+#search-box:hover {
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 30px;
+  border-color: orange;
+}
+
+#search-box:focus {
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 30px;
+  border-color: orange;
+}
+
+#search-sub {
+  float: right;
+  width: 10%;
+  height: 25px;
+  color: #000;
+  margin-top: 3px;
+  margin-right: -25%;
+  text-align: center;
+  border-style: none;
+  border-radius: 5px;
+  background-color: #FFF;
+}
+
+#search-sub:hover {
+  border-radius: 25px;
+}
+
+#baseTab {
+  width: 70%;
+  height: 80%;
+  margin: auto;
+  margin-top: 3%;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#Add input {
+  color: #000;
+  margin: 8%;
+  width: 33%;
+  height: 30px;
+  border-style: none;
+  border-radius: 15px;
+  background-color: #D7D9CC;
+}
+
+#Add input:hover {
+  border-style: solid;
+  border-width: 1.5px;
+  border-color: #FF5025;
+}
+
+#Add input:focus {
+  border-style: solid;
+  border-width: 1.5px;
+  border-color: #FF5025;
+}
+
+#Add button {
+  color: #000;
+  margin: 8%;
+  width: 33%;
+  height: 30px;
+  border-style: none;
+  border-radius: 15px;
+  background-color: #D7D9CC;
+}
+
+#Add button:hover {
+  opacity: 0.8;
+  border-style: solid;
+  border-width: 1.5px;
+  border-color: #FF5025;
+}
