@@ -7,6 +7,19 @@ body {
   background-color: #2D3A4A;
 }
 
+iframe {
+  width: 99%;
+  height: 200px;
+  margin-top: 15%;
+  color: #e3e3e3;
+  border-style: dashed;
+}
+
+a {
+  color: #E3E3E3;
+  text-decoration: none;
+}
+
 .wrap {
   width: 70%;
   margin: auto;
