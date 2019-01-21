@@ -1,16 +1,13 @@
 #!/usr/bin/python3
 import sys
-from os import getenv, chdir
-from phonebook import PhoneBook
 from PyQt5.QtWidgets import *
+from phonebook import PhoneBook
 
 
 class Window(QTabWidget):
     def __init__(self):
         super().__init__()
         self.window()
-        home_dc = getenv("HOME")
-        chdir(home_dc)
 
     def window(self):
         # Base
