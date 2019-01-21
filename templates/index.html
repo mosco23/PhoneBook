@@ -9,32 +9,45 @@
   <body>
     <div class="wrap">
       <div class="menu">
+        {% block menu %}
         <form method="post">
           <input id="search-box" type="text" name="search-engin" placeholder="Search here with name ..." />
-          <button type="submit" name="button" id="search-sub" >Submit</button>
+          <button type="submit" id="search-sub"  name="search_btn" >Submit</button>
         </form>
         <ul>
           <button class="menu-btn" onclick="openTab(event, 'Add')">Add</button>
           <button class="menu-btn" onclick="openTab(event, 'Show')">Show</button>
           <button class="menu-btn" onclick="openTab(event, 'About')">About</button>
         </ul>
+        {% endblock %}
       </div>
       <div id="baseTab">
+        {% block page %}
         <div id="Add" class="tabcontent" >
-          <form action="" method="post" >
+          <form action="/" method="post" >
             <input type="text" name="name" placeholder="Name" />
             <input type="text" name="email" placeholder="Example@mail.com">
             <input type="text" name="phoneNumber" placeholder="+98 * *** *** ***" />
-            <button type="submit" name="add-submit">Submit</button>
+            <button type="submit" name="submit_btn">Submit</button>
           </form>
         </div>
         <div id="Show" class="tabcontent">
-          <h1>this is Show tab</h1>
+          <iframe src="static/.Phone_Lists.txt">  </iframe>
         </div>
         <div id="About" class="tabcontent" style="display:block;">
-          <h1>this is About tab</h1>
+          <p><hr />
+            <h1><b>Add tab</b></h1>
+            <h3>add the new phone number .</h3>
+            <h1><b>Show Tab</b></h1>
+            <h3>Show the all rigestered phone numbers.</h3>
+            <h1><b>About Tab</b></h1>
+            <h3>The manual page (This Tab).</h3>
+            <p><hr /><h3>The phone book web application , written in python 3 with flask micro framework :)))</h3></p>
+          </p>
         </div>
       </div>
+      {% endblock %}
+      <h2><a href="https://www.github.com/SamanMalekian" target="_blank">My Github page</a></h2>
     </div>
   </body>
 </html>
