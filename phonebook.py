@@ -24,8 +24,6 @@ class PhoneBook:
         self.name = name
         self.email = email
         self.num = num
-        home_dc = getenv("HOME")
-        chdir(home_dc)
         ls = listdir()
         if ".Phone_Lists.txt" not in ls:
             open(".Phone_Lists.txt", "w+").close()
@@ -51,12 +49,13 @@ class PhoneBook:
 
 
 def main():
+    chdir('static')
     if "-h" in argv:
         print(PhoneBook.__doc__)
     elif "-g" in argv:
-        system("python3 gui.py")
+        system("python3 ../gui.py")
     elif "-w" in argv:
-        system("python3 web.py")
+        system("python3 ../web.py")
     else:
         system("clear")
         inp = input("Press the enter :)")
