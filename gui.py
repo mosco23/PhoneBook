@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import sys
+import sqlite3
 from PyQt5.QtWidgets import *
 from phonebook import PhoneBook
 
@@ -52,13 +53,13 @@ class Window(QTabWidget):
         self.searchButton.clicked.connect(self.search)
 
         self.showBox = QTextEdit(self.tab2)
-        self.showBox.setText("NAME\tPHONENUMBER   EMAIL")
+        self.showBox.setText("ID\tNAME\tPHONENUMBER   EMAIL")
         self.showBox.setReadOnly(1)
         self.showBox.setGeometry(2.5, 50, 491, 250)
 
         # Show Tab Objects
         self.textBox = QTextEdit(self.tab3)
-        self.textBox.setText("NAME\tPHONENUMBER   EMAIL\n")
+        self.textBox.setText("ID NAME PHONENUMBER   EMAIL\n")
         self.textBox.setReadOnly(1)
         self.textBox.setGeometry(2.5, 10, 491, 300)
 
@@ -73,18 +74,20 @@ class Window(QTabWidget):
         submit.submit()
 
     def search(self):
-        c = len(self.search_inp.text())
-        f = open(".Phone_Lists.txt", "r")
-        read = f.readlines()
-        for i in read:
-            if i[:c] == self.search_inp.text():
-                self.showBox.append(i)
+        db = sqlite3.connect('database.db')
+        c = db.cursor()
+        c.execute("SELECT * FROM Post WHERE Names='{}'".format(self.search_inp.text()))
+        for data in c.fetchall():
+            self.showBox.append(str(data))
+        db.close()
 
     def cShow(self):
         self.cBottun.hide()
-        file = open(".Phone_Lists.txt")
-        for i in file:
-            self.textBox.append(i)
+        db = sqlite3.connect('database.db')
+        c = db.cursor()
+        c.execute("SELECT * FROM Post")
+        for data in c.fetchall():
+            self.textBox.append(str(data))
 
 
 app = QApplication(sys.argv)
