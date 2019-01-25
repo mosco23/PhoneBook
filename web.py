@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import sqlite3
 from phonebook import PhoneBook
 from flask import Flask, render_template, request, redirect
 
@@ -7,8 +8,13 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    db = sqlite3.connect('database.db')
+    c = db.cursor()
+    c.execute("SELECT * FROM Post")
+    data = c.fetchall()
+    db.close()
     if request.method == 'GET':
-        return(render_template('index.html'))
+        return(render_template('index.html', data=data))
     elif request.method == 'POST':
         if 'submit_btn' in request.form:
             name, phoneNumber, email = request.form['name'], request.form['phoneNumber'], request.form['email']
@@ -16,8 +22,12 @@ def index():
             submit.submit()
             return('Information was recorded successfully')
         elif 'search_btn' in request.form:
+            db = sqlite3.connect('database.db')
+            c = db.cursor()
+            c.execute("SELECT * FROM Post WHERE Names='{}'".format(request.form['search-engin']))
             global value
-            value = request.form['search-engin']
+            value = c.fetchall()
+            db.close()
             return(redirect('/search'))
         else:
             return()
@@ -25,10 +35,7 @@ def index():
 
 @app.route('/search')
 def search():
-    c = len(value)
-    f = open("static/.Phone_Lists.txt", "r")
-    read = f.readlines()
-    return(render_template('search-page.html', c=c, f=f, read=read, value=value))
+    return(render_template('search-page.html', data=value))
 
 
 if __name__ == "__main__":
