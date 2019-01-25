@@ -32,7 +32,13 @@
           </form>
         </div>
         <div id="Show" class="tabcontent">
-          <iframe src="static/.Phone_Lists.txt">  </iframe>
+          <h2>ID NAME PHONE-NUMBER  EMAIL</h2>
+          {% for i in data %}
+            {% for x in i %}
+              <b style="font-size: 16px;">{{x}}</b>
+            {% endfor %}
+            <p></p>
+          {% endfor %}
         </div>
         <div id="About" class="tabcontent" style="display:block;">
           <p><hr />
@@ -47,7 +53,7 @@
         </div>
       </div>
       {% endblock %}
-      <h2><a href="https://www.github.com/SamanMalekian" target="_blank">My Github page</a></h2>
+      {% block footer %}<h2><a href="https://www.github.com/SamanMalekian" target="_blank">My Github page</a></h2>{% endblock %}
     </div>
   </body>
 </html>
