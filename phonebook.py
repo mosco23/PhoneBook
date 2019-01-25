@@ -1,6 +1,7 @@
 #!/usr/bin/python3
+import sqlite3
 from sys import argv
-from os import system, chdir, listdir, getenv
+from os import system
 
 
 class PhoneBook:
@@ -24,38 +25,47 @@ class PhoneBook:
         self.name = name
         self.email = email
         self.num = num
-        ls = listdir()
-        if ".Phone_Lists.txt" not in ls:
-            open(".Phone_Lists.txt", "w+").close()
 
     def submit(self):
-        file = open(".Phone_Lists.txt", "a")
-        file.write(f"{self.name}\t{self.num}\t{self.email}\n")
-        file.close()
+        db = sqlite3.connect('database.db')
+        c = db.cursor()
+        sql = "INSERT INTO Post(Names, Numbers, Emails) VALUES('{}', '{}', '{}')".format(
+            self.name, self.num, self.email)
+        c.execute(sql)
+        db.commit()
+        db.close()
 
     def show(self):
-        file = open(".Phone_Lists.txt")
-        print("\nname\tphoneNumber\tmail\n")
-        for i in file:
-            print(i)
+        db = sqlite3.connect('database.db')
+        c = db.cursor()
+        c.execute("SELECT * FROM Post")
+        fetched = c.fetchall()
+        db.commit()
+        db.close()
+        print("ID\tNAME\tPHONE NUMBER\tMAIL")
+        for i in fetched:
+            for y in range(0, 4):
+                print(i[y], '\t', end='')
+            print()
 
     def search(self, value):
-        c = len(value)
-        f = open(".Phone_Lists.txt", "r")
-        read = f.readlines()
-        for i in read:
-            if i[:c] == value:
-                print(i)
+        db = sqlite3.connect('database.db')
+        c = db.cursor()
+        c.execute("SELECT * FROM Post WHERE Names='{}'".format(value))
+        db.close()
+        for data in c.fetchall():
+            for i in range(0, 4):
+                print(data[i], end='\t')
+            print()
 
 
 def main():
-    chdir('static')
     if "-h" in argv:
         print(PhoneBook.__doc__)
     elif "-g" in argv:
-        system("python3 ../gui.py")
+        system("python3 gui.py")
     elif "-w" in argv:
-        system("python3 ../web.py")
+        system("python3 web.py")
     else:
         system("clear")
         inp = input("Press the enter :)")
