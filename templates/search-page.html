@@ -1,9 +1,13 @@
 {% extends "index.html" %}
 {% block menu %}{% endblock %}
 {% block page %}
-    {% for i in read %}
-      {% if i[:c] == value %}
-        <p style="margin-top: 5px;color: #E3E3E3;">{{i}}</p>
-      {% endif %}
+  <br/>
+  <h2>ID NAME PHONE-NUMBER  EMAIL</h2>
+  {% for i in data %}
+    {% for x in i %}
+      <b style="font-size: 16px;">{{x}}</b>
     {% endfor %}
+    <p></p>
+  {% endfor %}
+  {% block footer %}{% endblock %}
 {% endblock %}
