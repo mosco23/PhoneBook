@@ -1,8 +1,6 @@
-#!/usr/bin/python3
 import sys
-import sqlite3
-from PyQt5.QtWidgets import *
-from phonebook import PhoneBook
+from database import DataBase
+from PyQt5.QtWidgets import QTabWidget, QWidget, QLineEdit, QPushButton, QHBoxLayout, QTextEdit
 
 
 class Window(QTabWidget):
@@ -70,26 +68,19 @@ class Window(QTabWidget):
         self.show()
 
     def add(self):
-        submit = PhoneBook(self.getName.text(), self.getNum.text(), self.getMail.text())
-        submit.submit()
+        DataBase(table="USERS", rows="name, number, email", values=f"'{self.getName.text()}',\
+                    '{self.getNum.text()}', '{self.getMail.text()}'").add()
 
     def search(self):
-        db = sqlite3.connect('database.db')
-        c = db.cursor()
-        c.execute("SELECT * FROM Post WHERE Names='{}'".format(self.search_inp.text()))
-        for data in c.fetchall():
-            self.showBox.append(str(data))
-        db.close()
+        data = DataBase(table="USERS", values=f"name='{self.search_inp.text()}'").search()
+        for i in data:
+            self.showBox.append(str(i))
 
     def cShow(self):
         self.cBottun.hide()
-        db = sqlite3.connect('database.db')
-        c = db.cursor()
-        c.execute("SELECT * FROM Post")
-        for data in c.fetchall():
-            self.textBox.append(str(data))
+        data = DataBase(table="USERS").get()
+        for i in data:
+            self.textBox.append(str(i))
 
 
-app = QApplication(sys.argv)
-a_window = Window()
-sys.exit(app.exec_())
+
