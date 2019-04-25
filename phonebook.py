@@ -1,90 +1,93 @@
 #!/usr/bin/python3
-import sqlite3
-from sys import argv
+import web
 from os import system
-
-
-class PhoneBook:
-    """
-    ABOUT\n
-    \tThe phone book application for linux with GUI interface and web Version.
-    \tAuthor -> Saman Malekian
-    \tGithub -> https://github.com/SamanMalekian
-    \ttelegram ID -> https://t.me/M4lekian\n
-    OPTIONS\n
-    \t-h\t-->\tShow this page
-    \t-g\t-->\tRun app with GUI interface
-    \t-w\t-->\tRun app with WEB version\n
-    COMMANDS\n
-    \tadd\t -->\tAdd new phone number
-    \tshow\t -->\tShow the registered phone numbers
-    \tsearch\t -->\tSearch with name in registered phone numbers
-    """
-
-    def __init__(self, name=0, num=0, email=0):
-        self.name = name
-        self.email = email
-        self.num = num
-
-    def submit(self):
-        db = sqlite3.connect('database.db')
-        c = db.cursor()
-        sql = "INSERT INTO Post(Names, Numbers, Emails) VALUES('{}', '{}', '{}')".format(
-            self.name, self.num, self.email)
-        c.execute(sql)
-        db.commit()
-        db.close()
-
-    def show(self):
-        db = sqlite3.connect('database.db')
-        c = db.cursor()
-        c.execute("SELECT * FROM Post")
-        fetched = c.fetchall()
-        db.commit()
-        db.close()
-        print("ID\tNAME\tPHONE NUMBER\tMAIL")
-        for i in fetched:
-            for y in range(0, 4):
-                print(i[y], '\t', end='')
-            print()
-
-    def search(self, value):
-        db = sqlite3.connect('database.db')
-        c = db.cursor()
-        c.execute("SELECT * FROM Post WHERE Names='{}'".format(value))
-        db.close()
-        for data in c.fetchall():
-            for i in range(0, 4):
-                print(data[i], end='\t')
-            print()
+from gui import Window
+from sys import argv, exit
+from database import DataBase
+from prettytable import PrettyTable
+from PyQt5.QtWidgets import QApplication
 
 
 def main():
+    """
+    ABOUT\n
+    \tThe phone book application for linux with GUI and WEB UI.
+    \tAuthor -> Saman Malekian
+    \ttelegram ID -> https://t.me/M4lekian
+    \tGithub -> https://github.com/SamanMalekian\n
+    OPTIONS\n
+    \t-h\t-->\tShow this page
+    \t-w\t-->\tRun app with WEB UI
+    \t-g\t-->\tRun app with Graphical UI\n
+    COMMANDS\n
+    \tadd\t -->\tAdd new phone number
+    \tdelete\t -->\tDelete contacts via id
+	\tedit\t -->\tEdit the contact's data
+    \tshow\t -->\tShow the registered phone numbers
+    \tsearch\t -->\tSearch with name in registered phone numbers
+    """
     if "-h" in argv:
-        print(PhoneBook.__doc__)
+        print(main.__doc__)
     elif "-g" in argv:
-        system("python3 gui.py")
+        app = QApplication(argv)
+        a_window = Window()
+        exit(app.exec_())
     elif "-w" in argv:
-        system("python3 web.py")
+        web.app.run(host="127.0.0.1", port=8000)
     else:
         system("clear")
         inp = input("Press the enter :)")
         while inp != "exit":
-            inp = input("\n-> ")
-            inp = inp.lower()
+            inp = (input("\n-> ")).lower()
+            data = DataBase(table="USERS").get()
             if inp == "add":
                 getName = input("\tName -> ")
                 getNum = input("\tPhone Number -> ")
                 getMail = input("\tEmail -> ")
-                submit = PhoneBook(getName, getNum, getMail)
-                submit.submit()
+                DataBase(table="USERS", rows="name, number, email", values=f"'{getName}',\
+                     '{getNum}', '{getMail}'").add()
             elif inp == "show":
-                show = PhoneBook()
-                show.show()
+                table = PrettyTable(['id', 'name', 'phone number', 'email address'])
+                for i in data: table.add_row([i[0], i[1], i[2], i[3]])
+                print(table)
             elif inp == "search":
-                search_val = input("\nEnter the name for search > ")
-                search = PhoneBook()
-                search.search(search_val)
+                value = input("\nEnter the name for search > ")
+                search_data = []
+                for i in data:
+                    find = False
+                    for x in i:
+                        if value in str(x):
+                            find = True
+                            break
+                    if find:
+                        search_data.append(i)
+                if len(search_data) != 0:
+                    table = PrettyTable(['id', 'name', 'phone number', 'email address'])
+                    for i in search_data: table.add_row([i[0], i[1], i[2], i[3]])
+                    print(table)
+                else: 
+                    print("\n\tContact not found !\n")
+            elif inp == "delete":
+                id = input("\tEnter the id -> ")
+                try:
+                    id = int(id)
+                except ValueError:
+                    id = input("\tPlease enter the id (or 0 for return) -> ")
+                DataBase(table="USERS", rows="id", values=id).delete()
+            elif inp == "edit":
+                id = input("\tEnter the id -> ")
+                data = DataBase(table="USERS", values=f"id='{id}'").search()
+                if len(data) > 0:
+                    data = data[0]
+                    name = input(f"\n\tName ( Current value : {data[1]} ) > ") or data[1]
+                    numb = input(f"\n\tphone number ( Current value : {data[2]} ) > ") or data[2]
+                    mail = input(f"\n\tEmail address ( Current value : {data[3]} ) > ") or data[3]
+                    DataBase(table="USERS", rows="id, name, number, email",\
+                         values=f"'{data[0]}', '{name}', '{numb}', '{mail}'").replace()
+                    print('\ndata`s successfully edited!')
+                else:
+                    print('\n\tid`s not found !')
+                    
 
 
 if __name__ == "__main__":
