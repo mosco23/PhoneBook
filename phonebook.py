@@ -22,7 +22,7 @@ def main():
     COMMANDS\n
     \tadd\t -->\tAdd new phone number
     \tdelete\t -->\tDelete contacts via id
-	\tedit\t -->\tEdit the contact's data
+    \tedit\t -->\tEdit the contact's data
     \tshow\t -->\tShow the registered phone numbers
     \tsearch\t -->\tSearch with name in registered phone numbers
     """
