@@ -1,59 +1,99 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>Phone Book</title>
-    <link rel="stylesheet" href="static/css/style.css">
-    <script type="text/javascript" src="static/js/tab-events.js"></script>
+    <meta charset="UTF-8">
+    <title>PhoneBook</title>
+    <link rel="stylesheet" href="/static/css/style.css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   </head>
   <body>
-    <div class="wrap">
-      <div class="menu">
-        {% block menu %}
-        <form method="post">
-          <input id="search-box" type="text" name="search-engin" placeholder="Search here with name ..." />
-          <button type="submit" id="search-sub"  name="search_btn" >Submit</button>
-        </form>
-        <ul>
-          <button class="menu-btn" onclick="openTab(event, 'Add')">Add</button>
-          <button class="menu-btn" onclick="openTab(event, 'Show')">Show</button>
-          <button class="menu-btn" onclick="openTab(event, 'About')">About</button>
-        </ul>
-        {% endblock %}
-      </div>
-      <div id="baseTab">
-        {% block page %}
-        <div id="Add" class="tabcontent" >
-          <form action="/" method="post" >
-            <input type="text" name="name" placeholder="Name" />
-            <input type="text" name="email" placeholder="Example@mail.com">
-            <input type="text" name="phoneNumber" placeholder="+98 * *** *** ***" />
-            <button type="submit" name="submit_btn">Submit</button>
+    {% if message %}
+      <script>alert("{{ message }}");</script>
+    {% endif %}
+    <header>
+      <nav>
+        <a href="/">Home</a>
+        <a href="?url=add">Add</a>
+        <a href="?url=show">Show</a>
+      </nav>
+
+    </header>
+    <div id="wrapper">
+      {% if request.values.get("url") == "add" %}
+        <div id="add">
+          <hr>
+          <form method="post">
+            <input type="text" name="name" placeholder="name" maxlength="25" minlength="3" required/>
+            <input type="text" name="phoneNumber" placeholder="09120000000" maxlength="11" required/>
+            <input type="email" name="emailAddress" placeholder="example@email.com" />
+            <button type="submit" name="addValues">submit</button>
           </form>
+          <hr>
         </div>
-        <div id="Show" class="tabcontent">
-          <h2>ID NAME PHONE-NUMBER  EMAIL</h2>
-          {% for i in data %}
-            {% for x in i %}
-              <b style="font-size: 16px;">{{x}}</b>
+      {% elif request.values.get("url") == "show" %}
+        <div id="show">
+          <form method="get" class="search-box">
+              <input type="text" name="search" placeholder="Search here ..." required/>
+              <button type="submit" name="url" value="show"><i class="fas fa-search"></i></button>
+          </form>
+          <table class="tg">
+            <tr>
+              <th class="tg-0lax">id<br></th>
+              <th class="tg-0lax">name</th>
+              <th class="tg-0lax">phone number</th>
+              <th class="tg-baqh">email</th>
+              {% if request.values.get('edit') %}
+                <th class="tg-0lax">submit</th>
+              {% else %}
+                <th class="tg-0lax">edit</th>
+                <th class="tg-0lax">delete</th>
+              {% endif %}
+            </tr>
+            {% for i in data %}
+              <tr>
+                {% if request.values.get('edit') %}
+                  <form method="post">
+                    <td class="tg-0lax">
+                      {{ i[0] }}
+                    </td>
+                    <td class="tg-0lax">
+                      <input value="{{ i[1] }}" name="name">
+                    </td>
+                    <td class="tg-0lax">
+                      <input value="{{ i[2] }}" name="phoneNumber">
+                    </td>
+                    <td class="tg-0lax">
+                      <input value="{{ i[3] }}" name="emailAddress">
+                    </td>
+                    <td class="tg-0lax">
+                      <button type="submit" name="editValues">submit</button>
+                    </td>
+                  </form>
+                {% else %}
+                  <td class="tg-0lax">{{ i[0] }}</td>
+                  <td class="tg-0lax">{{ i[1] }}</td>
+                  <td class="tg-0lax">{{ i[2] }}</td>
+                  <td class="tg-baqh">{{ i[3] }}</td>
+                  <td class="tg-baqh"><a href="?url=show&edit={{ i[0] }}" class="icon"><i class="fas fa-user-edit"></i></a></td>
+                  <td class="tg-baqh"><a href="?url=show&delete={{ i[0] }}" class="icon"><i class="fas fa-trash-alt"></i></a></td>
+                {% endif %}
+              </tr>
             {% endfor %}
-            <p></p>
-          {% endfor %}
+          </table>
         </div>
-        <div id="About" class="tabcontent" style="display:block;">
-          <p><hr />
-            <h1><b>Add tab</b></h1>
-            <h3>add the new phone number .</h3>
-            <h1><b>Show Tab</b></h1>
-            <h3>Show the all rigestered phone numbers.</h3>
-            <h1><b>About Tab</b></h1>
-            <h3>The manual page (This Tab).</h3>
-            <p><hr /><h3>The phone book web application , written in python 3 with flask micro framework :)))</h3></p>
-          </p>
+      {% else %}
+        <div id="home">
+          <hr>
+          <h1><b>Add tab</b></h1>
+          <h3>add the new phone number .</h3>
+          <h1><b>Show Tab</b></h1>
+          <h3>Show the all rigestered phone numbers.</h3>
+          <h1><b>Home Tab</b></h1>
+          <h3>The manual page (This Tab).</h3><hr>
+          <h3>Phone book web application, written in python 3 with flask micro framework :)))</h3>
         </div>
-      </div>
-      {% endblock %}
-      {% block footer %}<h2><a href="https://www.github.com/SamanMalekian" target="_blank">My Github page</a></h2>{% endblock %}
+      {% endif %}
     </div>
   </body>
 </html>
