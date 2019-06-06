@@ -1,51 +1,94 @@
-import sqlite3
+from database import DataBase
+from PyQt5.QtWidgets import QTabWidget, QWidget, QLineEdit, QPushButton, QHBoxLayout, QTextEdit
 
 
-class DataBase:
-    def __init__(self, **kwargs):
-        self.dbs = kwargs.get('db')
-        self.table = kwargs.get('table')
-        self.rows = kwargs.get('rows')
-        self.values = kwargs.get('values')
-        if self.dbs:
-            self.db = sqlite3.connect(f'{self.dbs}')
-        else:
-            self.db = sqlite3.connect('dbs/db.db')
-        self.connect = self.db.cursor()
+class Window(QTabWidget):
+    def __init__(self):
+        super().__init__()
+
+        # Tabs
+        self.tab1 = QWidget()
+        self.tab2 = QWidget()
+        self.tab3 = QWidget()
+
+        # Appearance Base
+        self.background_color = "#000"
+        self.window_title = "Phone Book"
+        self.loc = {'top': 170, 'left': 420, 'width': 500, 'height': 500}
+
+        # Add Tab Objects
+        self.get_name = QLineEdit(self.tab1)
+        self.get_num = QLineEdit(self.tab1)
+        self.get_mail = QLineEdit(self.tab1)
+        self.addButton = QPushButton("add", self.tab1)
+
+        # Search Tab Objects
+        self.search_inp = QLineEdit(self.tab2)
+        self.searchButton = QPushButton("Search", self.tab2)
+        self.showBox = QTextEdit(self.tab2)
+
+        # Show Tab Objects
+        self.textBox = QTextEdit(self.tab3)
+        self.cBottun = QPushButton("Just Click", self.tab3)
+
+    def window(self):
+        # Base
+        self.setWindowTitle(self.window_title)
+        self.setStyleSheet(f"background-color: {self.background_color}")
+        self.setGeometry(self.loc['left'], self.loc['top'], self.loc['width'], self.loc['height'])
+
+        # Tabs
+        self.addTab(self.tab1, "Add")
+        self.addTab(self.tab2, "Search")
+        self.addTab(self.tab3, "Show")
+
+        # Add Tab Atributies
+        self.get_name.setPlaceholderText('Name')
+        self.get_num.setPlaceholderText('Phone Number')
+        self.get_mail.setPlaceholderText('example@mail.com')
+
+        self.addButton.clicked.connect(self.add)
+
+        horizon = QHBoxLayout()
+        horizon.addWidget(self.get_name)
+        horizon.addWidget(self.get_num)
+        horizon.addWidget(self.get_mail)
+        horizon.addWidget(self.addButton)
+        horizon.addStretch()
+        self.tab1.setLayout(horizon)
+
+        # Search Tab Atributies
+        self.search_inp.setPlaceholderText("Search Here")
+        self.search_inp.setGeometry(1, 10, 200, 25)
+
+        self.searchButton.setGeometry(220, 10, 100, 25)
+        self.searchButton.clicked.connect(self.search)
+
+        self.showBox.setText("ID\tNAME\tPHONENUMBER   EMAIL")
+        self.showBox.setReadOnly(True)
+        self.showBox.setGeometry(2, 50, 491, 250)
+
+        # Show Tab Atributies
+        self.textBox.setText("ID NAME PHONENUMBER   EMAIL\n")
+        self.textBox.setReadOnly(True)
+        self.textBox.setGeometry(2, 10, 491, 300)
+
+        self.cBottun.move(200, 150)
+        self.cBottun.clicked.connect(self.c_show)
+
+        self.show()
 
     def add(self):
-        self.connect.execute(f"INSERT INTO {self.table}({self.rows}) VALUES({self.values})")
-        self.db.commit()
-
-    def get(self):
-        if self.rows:
-            self.connect.execute(f"SELECT {self.rows} FROM {self.table}")
-            data = self.connect.fetchall()
-        else:
-            self.connect.execute(f"SELECT * FROM {self.table}")
-            data = self.connect.fetchall()
-        return data
+        DataBase(table="USERS", rows="name, number, email", values=f"'{self.get_name.text()}',\
+                    '{self.get_num.text()}', '{self.get_mail.text()}'").add()
 
     def search(self):
-        if self.rows:
-            self.connect.execute(f"SELECT {self.rows} FROM {self.table} WHERE {self.values}")
-            data = self.connect.fetchall()
-        else:
-            self.connect.execute(f"SELECT * FROM {self.table} WHERE {self.values}")
-            data = self.connect.fetchall()
-        return data
+        data = DataBase(table="USERS", values=f"name='{self.search_inp.text()}'").search()
+        for i in data:
+            self.showBox.append(str(i))
 
-    def replace(self):
-        self.connect.execute(f"REPLACE INTO {self.table}({self.rows}) VALUES({self.values})")
-        self.db.commit()
-
-    def update(self, search=None):
-        if search:
-            self.connect.execute(f"UPDATE {self.table} SET '{self.rows}'='{self.values}' WHERE {search[0]}={search[1]}")
-        else:
-            self.connect.execute(f"UPDATE {self.table} SET '{self.rows}'='{self.values}'")
-        self.db.commit()
-
-    def delete(self):
-        self.connect.execute(f"DELETE FROM {self.table} WHERE {self.rows}={self.values}")
-        self.db.commit()
+    def c_show(self):
+        self.cBottun.hide()
+        data = DataBase(table="USERS").get()
+        for i in data:
+            self.textBox.append(str(i))
