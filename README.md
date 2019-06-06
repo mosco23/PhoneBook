@@ -13,7 +13,7 @@ The phone book application for linux with GUI and Web UI.
     delete -->	Delete contact.
     edit   -->	Edit the contact information.
     show   -->	Show a list of existing contacts.
-    search -->	Search with name in registered phone numbers.
+    search -->	Search with name in contacts.
     exit   -->	Exit The App.
 
 # INSTALL
