@@ -11,7 +11,7 @@ The phone book application for linux with GUI and Web UI.
 
     add    -->	Add new contact.
     delete -->	Delete contact.
-    edit   -->	Edit the contant information.
+    edit   -->	Edit the contact information.
     show   -->	Show a list of existing contacts.
     search -->	Search with name in registered phone numbers.
     exit   -->	Exit The App.
