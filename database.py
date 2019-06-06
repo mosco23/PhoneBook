@@ -35,7 +35,7 @@ class DataBase:
             data = self.connect.fetchall()
         return data
 
-    def replace(self, search=None):
+    def replace(self):
         self.connect.execute(f"REPLACE INTO {self.table}({self.rows}) VALUES({self.values})")
         self.db.commit()
 
