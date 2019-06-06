@@ -26,8 +26,8 @@ def index():
         else:
             message = "Target not found !"
     if delete:
-       DataBase(table="USERS", rows="id", values=f"'{delete}'").delete()
-       return redirect('?url=show')
+        DataBase(table="USERS", rows="id", values=f"'{delete}'").delete()
+        return redirect('?url=show')
     if edit:
         data = DataBase(table="USERS", values=f"id='{edit}'").search()
     if request.method == "POST":
@@ -35,14 +35,14 @@ def index():
             name = request.form['name']
             phone = request.form['phoneNumber']
             email = request.form['emailAddress']
-            DataBase(table="USERS", rows="name, number, email", \
-                values=f"'{name}', '{phone}', '{email}'").add()
+            DataBase(table="USERS", rows="name, number, email",
+                     values=f"'{name}', '{phone}', '{email}'").add()
             message = f"{name} data`s Successfully registered"
         if "editValues" in request.form:
             name = request.form['name']
             phone = request.form['phoneNumber']
             email = request.form['emailAddress']
-            DataBase(table="USERS", rows="id, name, number, email",\
-                 values=f"'{edit}', '{name}', '{phone}', '{email}'").replace()
+            DataBase(table="USERS", rows="id, name, number, email",
+                     values=f"'{edit}', '{name}', '{phone}', '{email}'").replace()
             message = f"{name} data`s successfully edited !"
     return render_template("index.html", data=data, message=message)
