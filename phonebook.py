@@ -31,6 +31,7 @@ def main():
     elif "-g" in argv:
         app = QApplication(argv)
         a_window = Window()
+        a_window.window()
         exit(app.exec_())
     elif "-w" in argv:
         web.app.run(host="127.0.0.1", port=8000)
@@ -41,14 +42,15 @@ def main():
             inp = (input("\n-> ")).lower()
             data = DataBase(table="USERS").get()
             if inp == "add":
-                getName = input("\tName -> ")
-                getNum = input("\tPhone Number -> ")
-                getMail = input("\tEmail -> ")
-                DataBase(table="USERS", rows="name, number, email", values=f"'{getName}',\
-                     '{getNum}', '{getMail}'").add()
+                get_name = input("\tName -> ")
+                get_num = input("\tPhone Number -> ")
+                get_mail = input("\tEmail -> ")
+                DataBase(table="USERS", rows="name, number, email", values=f"'{get_name}',\
+                     '{get_num}', '{get_mail}'").add()
             elif inp == "show":
                 table = PrettyTable(['id', 'name', 'phone number', 'email address'])
-                for i in data: table.add_row([i[0], i[1], i[2], i[3]])
+                for i in data:
+                    table.add_row([i[0], i[1], i[2], i[3]])
                 print(table)
             elif inp == "search":
                 value = input("\nEnter the name for search > ")
@@ -63,32 +65,32 @@ def main():
                         search_data.append(i)
                 if len(search_data) != 0:
                     table = PrettyTable(['id', 'name', 'phone number', 'email address'])
-                    for i in search_data: table.add_row([i[0], i[1], i[2], i[3]])
+                    for i in search_data:
+                        table.add_row([i[0], i[1], i[2], i[3]])
                     print(table)
                 else: 
                     print("\n\tContact not found !\n")
             elif inp == "delete":
-                id = input("\tEnter the id -> ")
+                get_id = input("\tEnter the id -> ")
                 try:
-                    id = int(id)
+                    get_id = int(get_id)
                 except ValueError:
-                    id = input("\tPlease enter the id (or 0 for return) -> ")
-                DataBase(table="USERS", rows="id", values=id).delete()
+                    get_id = input("\tPlease enter the id (or 0 for return) -> ")
+                DataBase(table="USERS", rows="id", values=get_id).delete()
             elif inp == "edit":
-                id = input("\tEnter the id -> ")
-                data = DataBase(table="USERS", values=f"id='{id}'").search()
+                get_id = input("\tEnter the id -> ")
+                data = DataBase(table="USERS", values=f"id='{get_id}'").search()
                 if len(data) > 0:
                     data = data[0]
                     name = input(f"\n\tName ( Current value : {data[1]} ) > ") or data[1]
                     numb = input(f"\n\tphone number ( Current value : {data[2]} ) > ") or data[2]
                     mail = input(f"\n\tEmail address ( Current value : {data[3]} ) > ") or data[3]
-                    DataBase(table="USERS", rows="id, name, number, email",\
-                         values=f"'{data[0]}', '{name}', '{numb}', '{mail}'").replace()
+                    DataBase(table="USERS", rows="id, name, number, email",
+                             values=f"'{data[0]}', '{name}', '{numb}', '{mail}'").replace()
                     print('\ndata`s successfully edited!')
                 else:
                     print('\n\tid`s not found !')
                     
-
 
 if __name__ == "__main__":
     main()
