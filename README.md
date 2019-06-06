@@ -10,11 +10,11 @@ The phone book application for linux with GUI and Web UI.
 # COMMANDS
 
     add    -->	Add new contact.
-    delete -->    \tDelete contact.
-    edit   -->    Edit the contant information.
+    delete -->	Delete contact.
+    edit   -->	Edit the contant information.
     show   -->	Show a list of existing contacts.
     search -->	Search with name in registered phone numbers.
-    exit   -->    Exit The App.
+    exit   -->	Exit The App.
 
 # INSTALL
     git clone https://github.com/SamanMalekian/PhoneBook.git
