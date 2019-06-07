@@ -4,6 +4,7 @@ from os import system
 from gui import Window
 from sys import argv, exit
 from database import DataBase
+from argparse import ArgumentParser
 from prettytable import PrettyTable
 from PyQt5.QtWidgets import QApplication
 
@@ -26,14 +27,20 @@ def main():
     \tshow\t -->\tShow the registered phone numbers
     \tsearch\t -->\tSearch with name in registered phone numbers
     """
-    if "-h" in argv:
+    parser = ArgumentParser(add_help=False)
+    parser.add_argument('-h', '--h', dest="help", action="store_true")
+    parser.add_argument('-g', '--gui', dest="gui", action="store_true")
+    parser.add_argument('-w', '--web', dest="web", action="store_true")
+    options = parser.parse_args()
+
+    if options.help:
         print(main.__doc__)
-    elif "-g" in argv:
+    elif options.gui:
         app = QApplication(argv)
         a_window = Window()
         a_window.window()
         exit(app.exec_())
-    elif "-w" in argv:
+    elif options.web:
         web.app.run(host="127.0.0.1", port=8000)
     else:
         system("clear")
@@ -68,7 +75,7 @@ def main():
                     for i in search_data:
                         table.add_row([i[0], i[1], i[2], i[3]])
                     print(table)
-                else: 
+                else:
                     print("\n\tContact not found !\n")
             elif inp == "delete":
                 get_id = input("\tEnter the id -> ")
@@ -90,7 +97,7 @@ def main():
                     print('\ndata`s successfully edited!')
                 else:
                     print('\n\tid`s not found !')
-                    
+
 
 if __name__ == "__main__":
     main()
